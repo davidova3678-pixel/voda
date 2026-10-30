@@ -328,6 +328,32 @@ a{color:inherit;}
   .lightbox__arrow--next{right:6px;}
 }
 
+/* ---------- lead modal ---------- */
+.lead-modal{
+  position:fixed; inset:0; z-index:210; background:rgba(14,58,91,.45);
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+.lead-modal.is-open{display:flex;}
+.lead-modal__panel{
+  position:relative; background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow);
+  max-width:440px; width:100%; padding:32px 28px 28px; max-height:90vh; overflow-y:auto;
+}
+.lead-modal__close{
+  position:absolute; top:10px; right:10px; width:44px; height:44px; border-radius:50%;
+  background:transparent; border:1.5px solid var(--line); color:var(--ink); display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:background .15s, border-color .15s;
+}
+.lead-modal__close:hover{border-color:var(--teal); color:var(--teal-deep);}
+.lead-modal__close svg{width:16px; height:16px;}
+.lead-modal__title{font-family:var(--font-body); font-size:19px; font-weight:700; color:var(--ink); line-height:1.3; padding-right:40px;}
+.lead-modal .lead-form{margin-top:20px;}
+.lead-modal__success{display:none; text-align:center; padding:12px 0;}
+.lead-modal__success.is-active{display:block;}
+.lead-modal__success .check{width:56px; height:56px; border-radius:50%; background:var(--teal-tint); color:var(--teal); display:flex; align-items:center; justify-content:center; margin:0 auto 16px;}
+.lead-modal__success .check svg{width:28px; height:28px;}
+.lead-modal__success p{font-size:15.5px; font-weight:700; color:var(--ink); max-width:300px; margin:0 auto;}
+@media (max-width:480px){ .lead-modal__panel{padding:26px 20px 22px;} }
+
 /* ---------- economy panel ---------- */
 .economy-panel{
   display:flex; align-items:center; gap:48px; margin-top:44px; background:var(--surface); border:1px solid var(--line);
@@ -439,7 +465,7 @@ footer{border-top:1px solid var(--line); padding:44px 0 28px; font-size:14px; co
         <a class="btn btn-primary" href="#quiz">
           <svg><use href="#i-gear"/></svg> Подобрать систему за 1 минуту
         </a>
-        <a class="btn btn-outline-rust" href="#quiz">
+        <a class="btn btn-outline-rust js-lead-trigger" href="#quiz">
           <svg><use href="#i-message"/></svg> Оставить заявку
         </a>
       </div>
@@ -592,7 +618,7 @@ footer{border-top:1px solid var(--line); padding:44px 0 28px; font-size:14px; co
               <div class="field full">
                 <label class="consent-check">
                   <input type="checkbox" id="qConsent" name="consent">
-                  <span>Даю согласие на обработку персональных данных</span>
+                  <span>Даю согласие на <a href="politika.html" target="_blank" rel="noopener" style="text-decoration:underline;">обработку персональных данных</a></span>
                 </label>
                 <div class="err">Подтвердите согласие на обработку персональных данных</div>
               </div>
@@ -738,7 +764,7 @@ footer{border-top:1px solid var(--line); padding:44px 0 28px; font-size:14px; co
       </div>
       <div class="final-cta__actions">
         <a class="btn btn-primary" href="#quiz" style="background:var(--rust);">Подобрать систему за 1 минуту</a>
-        <a class="btn btn-outline" href="#quiz" style="border-color:rgba(255,255,255,.4); color:#fff;">
+        <a class="btn btn-outline js-lead-trigger" href="#quiz" style="border-color:rgba(255,255,255,.4); color:#fff;">
           <svg><use href="#i-message"/></svg> Оставить заявку
         </a>
       </div>
@@ -763,16 +789,16 @@ footer{border-top:1px solid var(--line); padding:44px 0 28px; font-size:14px; co
       </nav>
       <div>
         <div style="font-weight:700; color:var(--ink);">Краснодар и Краснодарский край</div>
-        <a href="#quiz" style="color:var(--teal-deep); font-weight:600;">Оставить заявку →</a>
+        <a href="#quiz" class="js-lead-trigger" style="color:var(--teal-deep); font-weight:600;">Оставить заявку →</a>
       </div>
     </div>
-    <p class="foot-disclaimer">Демонстрационный лендинг, выполненный как тестовое задание. Контакты и формы работают в демо‑режиме: заявки не передаются и не сохраняются.</p>
+    <p class="foot-disclaimer">Демонстрационный лендинг, выполненный как тестовое задание. Контакты и формы работают в демо‑режиме: заявки не передаются и не сохраняются. <a href="politika.html" target="_blank" rel="noopener" style="color:var(--ink-soft); text-decoration:underline;">Политика конфиденциальности</a></p>
   </div>
 </footer>
 
 <!-- ================= MOBILE STICKY BAR ================= -->
 <div class="mobile-bar" aria-hidden="false">
-  <a class="btn btn-outline" href="#quiz"><svg><use href="#i-message"/></svg> Заявка</a>
+  <a class="btn btn-outline js-lead-trigger" href="#quiz"><svg><use href="#i-message"/></svg> Заявка</a>
   <a class="btn btn-primary" href="#quiz">Подобрать систему за 1 минуту</a>
 </div>
 
@@ -789,6 +815,44 @@ footer{border-top:1px solid var(--line); padding:44px 0 28px; font-size:14px; co
   </button>
   <div class="lightbox__stage">
     <img src="" alt="" id="lightboxImg">
+  </div>
+</div>
+
+<!-- ================= LEAD MODAL ================= -->
+<div class="lead-modal" id="leadModal" role="dialog" aria-modal="true" aria-label="Форма заявки" aria-hidden="true">
+  <div class="lead-modal__panel">
+    <button type="button" class="lead-modal__close" id="leadModalClose" aria-label="Закрыть">
+      <svg><use href="#i-close"/></svg>
+    </button>
+    <h3 class="lead-modal__title" id="leadModalTitle">Оставьте заявку – перезвоним и ответим на вопросы</h3>
+    <form id="leadForm" novalidate>
+      <div class="lead-form">
+        <div class="field">
+          <label for="leadName">Имя</label>
+          <input id="leadName" name="name" type="text" placeholder="Как вас зовут" autocomplete="name">
+          <div class="err">Укажите имя</div>
+        </div>
+        <div class="field">
+          <label for="leadPhone">Телефон</label>
+          <input id="leadPhone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel">
+          <div class="err">Укажите телефон для связи</div>
+        </div>
+        <div class="field full">
+          <label class="consent-check">
+            <input type="checkbox" id="leadConsent" name="consent">
+            <span>Даю согласие на <a href="politika.html" target="_blank" rel="noopener" style="text-decoration:underline;">обработку персональных данных</a></span>
+          </label>
+          <div class="err">Подтвердите согласие на обработку персональных данных</div>
+        </div>
+        <div class="full">
+          <button type="submit" class="btn btn-primary" style="width:100%;">Перезвоните мне</button>
+        </div>
+      </div>
+    </form>
+    <div class="lead-modal__success" id="leadModalSuccess">
+      <div class="check"><svg><use href="#i-check"/></svg></div>
+      <p>Спасибо, заявка принята! Скоро перезвоним.</p>
+    </div>
   </div>
 </div>
 
@@ -980,6 +1044,75 @@ footer{border-top:1px solid var(--line); padding:44px 0 28px; font-size:14px; co
       if(Math.abs(dx) > 40){ dx < 0 ? lbNext() : lbPrev(); }
     }, {passive:true});
   }
+
+  // lead modal
+  var leadModal = document.getElementById('leadModal');
+  var leadModalClose = document.getElementById('leadModalClose');
+  var leadModalTitle = document.getElementById('leadModalTitle');
+  var leadForm = document.getElementById('leadForm');
+  var leadModalSuccess = document.getElementById('leadModalSuccess');
+  var leadLastFocused = null;
+
+  function leadOpen(){
+    leadLastFocused = document.activeElement;
+    leadForm.reset();
+    leadForm.style.display = '';
+    leadModalTitle.style.display = '';
+    leadModalSuccess.classList.remove('is-active');
+    leadForm.querySelectorAll('.field').forEach(function(f){ f.classList.remove('has-error'); });
+    leadModal.classList.add('is-open');
+    leadModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    leadModalClose.focus();
+  }
+  function leadClose(){
+    leadModal.classList.remove('is-open');
+    leadModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if(leadLastFocused){ leadLastFocused.focus(); }
+  }
+
+  document.querySelectorAll('.js-lead-trigger').forEach(function(el){
+    el.addEventListener('click', function(e){ e.preventDefault(); leadOpen(); });
+  });
+  leadModalClose.addEventListener('click', leadClose);
+  leadModal.addEventListener('click', function(e){
+    if(e.target === leadModal){ leadClose(); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(!leadModal.classList.contains('is-open')) return;
+    if(e.key === 'Escape'){ leadClose(); }
+  });
+
+  var leadPhoneInput = document.getElementById('leadPhone');
+  leadPhoneInput.addEventListener('input', function(){
+    var digits = leadPhoneInput.value.replace(/\D/g,'').replace(/^7/,'').slice(0,10);
+    var out = '+7';
+    if(digits.length>0) out += ' (' + digits.slice(0,3);
+    if(digits.length>=3) out += ') ' + digits.slice(3,6);
+    if(digits.length>=6) out += '-' + digits.slice(6,8);
+    if(digits.length>=8) out += '-' + digits.slice(8,10);
+    leadPhoneInput.value = out;
+  });
+
+  leadForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var nameField = document.getElementById('leadName');
+    var phoneField = document.getElementById('leadPhone');
+    var consentField = document.getElementById('leadConsent');
+    var nameOk = nameField.value.trim().length >= 2;
+    var phoneOk = phoneField.value.replace(/\D/g,'').length >= 11;
+    var consentOk = consentField.checked;
+
+    nameField.closest('.field').classList.toggle('has-error', !nameOk);
+    phoneField.closest('.field').classList.toggle('has-error', !phoneOk);
+    consentField.closest('.field').classList.toggle('has-error', !consentOk);
+    if(!nameOk || !phoneOk || !consentOk) return;
+
+    leadForm.style.display = 'none';
+    leadModalTitle.style.display = 'none';
+    leadModalSuccess.classList.add('is-active');
+  });
 
 })();
 </script>
